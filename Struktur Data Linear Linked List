@@ -1,0 +1,64 @@
+#include <iostream>
+using namespace std;
+
+// Definisi node
+class Node {
+public:
+    string data; // Data yang disimpan dalam node
+    Node* next; // Pointer ke node berikutnya
+
+    Node(string val) {
+        data = val; // Menginisialisasi data
+        next = nullptr; // Menginisialisasi pointer next ke nullptr
+    }
+};
+
+// Definisi LinkedList
+class LinkedList {
+public:
+    Node* head; // Pointer ke node pertama dalam linked list
+
+    LinkedList() {
+        head = nullptr; // Menginisialisasi head ke nullptr
+    }
+
+    // Fungsi untuk menambahkan node baru di akhir linked list
+    void append(string value) {
+        Node* newNode = new Node(value); // Membuat node baru
+        if (head == nullptr) { // Jika linked list kosong, node baru menjadi head
+            head = newNode;
+        } else {
+            Node* temp = head; // Menggunakan pointer sementara untuk traversing
+            while (temp->next != nullptr) {
+                temp = temp->next; // Mencari node terakhir
+            }
+            temp->next = newNode; // Menambahkan node baru di akhir
+        }
+    }
+
+    // Fungsi untuk mencetak isi linked list
+    void printList() {
+        Node* temp = head; // Menggunakan pointer sementara untuk traversing
+        while (temp != nullptr) {
+            cout << temp->data << " -> "; // Mencetak data node
+            temp = temp->next; // Melanjutkan ke node berikutnya
+        }
+        cout << "NULL" << endl; // Menandakan akhir dari linked list
+    }
+};
+
+// Fungsi main
+int main() {
+    LinkedList pasienList; // Membuat objek LinkedList
+
+    // Menambahkan riwayat penyakit pasien
+    pasienList.append("Asma");
+    pasienList.append("Alergi");
+    pasienList.append("Gagal Ginjal");
+    pasienList.append("Osteoarthritis");
+
+    // Menampilkan riwayat penyakit pasien
+    pasienList.printList();
+
+    return 0;
+}

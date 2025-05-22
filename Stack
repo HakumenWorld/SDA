@@ -1,0 +1,19 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int main() {
+    // Mendeklarasikan stack untuk riwayat tindakan medis pasien
+    stack<string> riwayatTindakan;
+
+    // Menambahkan tindakan medis pasien ke stack
+    riwayatTindakan.push("Pemeriksaan Awal");
+    riwayatTindakan.push("Tes Laboratorium");
+    riwayatTindakan.push("Pemberian Obat");
+
+    // Mengambil tindakan terakhir
+    cout << "Tindakan terakhir: " << riwayatTindakan.top() << endl;
+    riwayatTindakan.pop();
+
+    return 0;
+}
