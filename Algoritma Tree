@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+// Definisi Node Pohon Keputusan
+class TreeNode {
+public:
+    string data; // Pertanyaan atau pernyataan
+    TreeNode* left; // Pointer ke anak kiri
+    TreeNode* right; // Pointer ke anak kanan
+    
+    // Konstruktor untuk menginisialisasi node
+    TreeNode(string val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+// Fungsi untuk diagnosis
+void diagnosis(TreeNode* root) {
+    if (root == nullptr) {
+        return; // Kasus dasar: jika node adalah null, kembali
+    }
+    cout << root->data << endl; // Cetak pertanyaan saat ini
+    string answer;
+    cout << "Jawab (yes/no): "; // Minta input dari pengguna
+    cin >> answer; // Baca respons pengguna
+    if (answer == "yes") {
+        diagnosis(root->left); // Traversal ke kiri untuk "yes"
+    } else {
+        diagnosis(root->right); // Traversal ke kanan untuk "no"
+    }
+}
+
+int main() {
+    // Membuat pohon keputusan
+    TreeNode* root = new TreeNode("Apakah pasien demam?");
+    root->left = new TreeNode("Apakah pasien batuk?");
+    root->right = new TreeNode("Apakah pasien pilek?");
+    
+    // Melakukan diagnosis
+    diagnosis(root);
+    
+    // Pembersihan memori (tidak ditunjukkan di sini, tetapi harus diimplementasikan)
+    
+    return 0;
+}

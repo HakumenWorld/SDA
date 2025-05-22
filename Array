@@ -1,0 +1,12 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    // Mendeklarasikan array untuk menyimpan nama pasien
+    string dataPasien[5] = {"Febi", "Budiono Siregar", "Kobo Kanaeru", "Ayunda Risu", "Fern"};
+
+    // Menampilkan nama pasien pertama
+    cout << "Pasien pertama: " << dataPasien[0] << endl;
+    return 0;
+}
+

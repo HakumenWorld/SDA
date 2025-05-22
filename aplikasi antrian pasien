@@ -1,0 +1,152 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Struct untuk node linked list
+struct Pasien {
+    int nomor;
+    string nama;
+    int umur;
+    Pasien* next;
+};
+
+// Queue Antrian Pasien
+class AntrianPasien {
+private:
+    Pasien* front;
+    Pasien* rear;
+    int count;
+    int autoNumber;
+
+public:
+    AntrianPasien() {
+        front = rear = nullptr;
+        count = 0;
+        autoNumber = 1;
+    }
+
+    bool kosong() {
+        return front == nullptr;
+    }
+
+    // Tambah pasien ke antrian
+    void daftar(string nama, int umur) {
+        Pasien* baru = new Pasien;
+        baru->nomor = autoNumber++;
+        baru->nama = nama;
+        baru->umur = umur;
+        baru->next = nullptr;
+        if (kosong()) {
+            front = rear = baru;
+        } else {
+            rear->next = baru;
+            rear = baru;
+        }
+        count++;
+        cout << "Pasien " << nama << " berhasil didaftarkan ke antrian.\n\n";
+    }
+
+    // View semua antrian
+    void tampilkan() {
+        if (kosong()) {
+            cout << "Antrian kosong.\n\n";
+            return;
+        }
+        cout << "\nDAFTAR ANTRIAN PASIEN:\n";
+        cout << "----------------------------\n";
+        cout << "No\tNama\t\tUmur\n";
+        cout << "----------------------------\n";
+        Pasien* temp = front;
+        while (temp != nullptr) {
+            cout << temp->nomor << "\t" << temp->nama << "\t\t" << temp->umur << "\n";
+            temp = temp->next;
+        }
+        cout << "----------------------------\n\n";
+    }
+
+    // Panggil (keluarkan) pasien pertama
+    void panggil() {
+        if (kosong()) {
+            cout << "Antrian kosong.\n\n";
+            return;
+        }
+        Pasien* temp = front;
+        cout << "Memanggil pasien: " << temp->nama << " (Umur: " << temp->umur << ")\n";
+        front = front->next;
+        delete temp;
+        count--;
+        if (front == nullptr) rear = nullptr;
+        cout << endl;
+    }
+
+    // Hapus pasien sesuai nomor antrian
+    void hapusPasien(int nomorCari) {
+        if (kosong()) {
+            cout << "Antrian kosong.\n\n";
+            return;
+        }
+        Pasien *curr = front, *prev = nullptr;
+        // Cari node yang akan dihapus
+        while (curr != nullptr && curr->nomor != nomorCari) {
+            prev = curr;
+            curr = curr->next;
+        }
+        if (curr == nullptr) {
+            cout << "Nomor antrian tidak ditemukan.\n\n";
+            return;
+        }
+        if (prev == nullptr) { // Hapus di depan
+            front = curr->next;
+            if (rear == curr) rear = nullptr;
+        } else {
+            prev->next = curr->next;
+            if (rear == curr) rear = prev;
+        }
+        cout << "Pasien " << curr->nama << " telah dihapus dari antrian.\n\n";
+        delete curr;
+        count--;
+    }
+
+    ~AntrianPasien() {
+        while (!kosong()) panggil();
+    }
+};
+
+int main() {
+    AntrianPasien antrian;
+    int pil;
+
+    do {
+        cout << "============================================\n";
+        cout << "    SISTEM ANTRIAN PASIEN - POLIKLINIK      \n";
+        cout << "============================================\n";
+        cout << "1. Daftar Pasien\n";
+        cout << "2. Tampilkan Antrian\n";
+        cout << "3. Panggil Pasien Selanjutnya\n";
+        cout << "4. Hapus Pasien dari Nomor Antrian\n";
+        cout << "0. Keluar\n";
+        cout << "============================================\n";
+        cout << "Pilih menu: "; cin >> pil; cin.ignore();
+        if (pil == 1) {
+            string nama; int umur;
+            cout << "Nama Pasien   : "; getline(cin, nama);
+            cout << "Umur Pasien   : "; cin >> umur; cin.ignore();
+            antrian.daftar(nama, umur);
+        } else if (pil == 2) {
+            antrian.tampilkan();
+        } else if (pil == 3) {
+            antrian.panggil();
+        } else if (pil == 4) {
+            int nomorCari;
+            antrian.tampilkan();
+            cout << "Masukkan nomor antrian yang akan dihapus: "; cin >> nomorCari; cin.ignore();
+            antrian.hapusPasien(nomorCari);
+        } else if (pil == 0) {
+            cout << "\nTerima kasih!\n";
+        } else {
+            cout << "Menu tidak ditemukan.\n\n";
+        }
+    } while (pil != 0);
+
+    return 0;
+}
